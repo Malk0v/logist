@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Логистическая компания</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Inter, Arial, sans-serif;
+        background: #0b0b0b;
+        color: #fff;
+        overflow-x: hidden;
+      }
+
+      section {
+        width: 100%;
+      }
+
+      /* ===== HERO ===== */
+      .hero {
+        position: relative;
+        height: 100vh;
+        overflow: hidden;
+        background: linear-gradient(#0b0b0b, #141414);
+      }
+
+      .hero.is-fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+      }
+
+      .hero__content {
+        position: relative;
+        z-index: 10;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        pointer-events: none;
+      }
+
+      .hero__content h1 {
+        font-size: clamp(32px, 5vw, 64px);
+        font-weight: 700;
+        max-width: 900px;
+        line-height: 1.1;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+        text-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      }
+
+      .hero.show-title h1 {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ===== SCENE ===== */
+      .scene {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .layer {
+        position: absolute;
+        bottom: 0;
+        width: 120%;
+        left: -10%;
+        transition: transform 0.1s linear, filter 0.1s linear,
+          opacity 0.1s linear;
+      }
+
+      .mountain-back {
+        z-index: 1;
+        opacity: 0.35;
+        filter: blur(2px);
+      }
+      .mountain-front {
+        z-index: 2;
+      }
+
+      .road {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) scale(0.6);
+        width: 40%;
+        z-index: 3;
+        opacity: 0;
+        filter: blur(6px);
+        transition: opacity 0.2s linear, transform 0.1s linear,
+          filter 0.1s linear;
+      }
+
+      .fog {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 255, 255, 0.08),
+          transparent 60%
+        );
+        z-index: 4;
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
+      }
+
+      .darken {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        z-index: 5;
+        transition: opacity 0.3s ease;
+      }
+
+      /* ===== CONTENT ===== */
+      .content {
+        padding: 120px 20px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .content h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+      .content p {
+        font-size: 18px;
+        line-height: 1.6;
+        opacity: 0.85;
+      }
+
+      .story {
+        margin-top: 40px;
+        font-size: 20px;
+        opacity: 0.9;
+      }
+
+      /* ===== PRICING ===== */
+      .pricing {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+      }
+
+      .price-card {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .price-card h3 {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+      .price {
+        font-size: 32px;
+        margin: 20px 0;
+      }
+
+      /* ===== FORM ===== */
+      form {
+        display: grid;
+        gap: 20px;
+        max-width: 500px;
+        margin-top: 40px;
+      }
+
+      input,
+      textarea,
+      button {
+        padding: 16px;
+        border-radius: 12px;
+        border: none;
+        font-size: 16px;
+      }
+
+      input,
+      textarea {
+        background: #1a1a1a;
+        color: #fff;
+      }
+
+      button {
+        background: #fff;
+        color: #000;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__content">
+        <h1>
+          Логистика от Машки путишественицы, которая прокладывает путь вашему
+          бизнесу
+        </h1>
+      </div>
+      <!-- hero content cleaned -->
+
+      <div class="scene">
+        <div class="darken" id="darken"></div>
+
+        <!-- BACK MOUNTAINS -->
+        <svg
+          class="layer mountain-back"
+          id="mountainBack"
+          viewBox="0 0 1440 400"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0 300 L200 180 L400 260 L600 140 L800 240 L1000 160 L1200 260 L1440 180 V400 H0 Z"
+            fill="#2a2a2a"
+          />
+        </svg>
+
+        <!-- FRONT MOUNTAINS -->
+        <svg
+          class="layer mountain-front"
+          id="mountainFront"
+          viewBox="0 0 1440 400"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0 340 L180 220 L360 300 L540 180 L720 320 L900 200 L1080 300 L1260 220 L1440 320 V400 H0 Z"
+            fill="#3a3a3a"
+          />
+        </svg>
+
+        <!-- ROAD -->
+        <svg
+          class="road"
+          id="road"
+          viewBox="0 0 200 400"
+          preserveAspectRatio="none"
+        >
+          <path d="M80 400 L120 400 L150 0 L50 0 Z" fill="#555" />
+          <line
+            x1="100"
+            y1="400"
+            x2="100"
+            y2="0"
+            stroke="#777"
+            stroke-dasharray="10,14"
+          />
+        </svg>
+
+        <div class="fog"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="content">
+      <h2>О компании</h2>
+      <p>
+        Логистика — это путь. Если маршрут не продуман, бизнес теряет время и
+        деньги. Мы еще не работаем. Но амбции на максимуме, книги в дорогу уже
+        подобраны. Именно ты можешь стать первым клиентом
+      </p>
+      <p class="story">
+        Мы проектируем этот путь: от первой точки до конечного клиента. Возможна
+        услуга вывоза за бугор и четвертование. Также контроль, прозрачность и
+        чёткое движение вперёд — без лишних поворотов.
+      </p>
+    </section>
+
+    <!-- PRICING -->
+    <section class="content">
+      <h2>Маршруты сотрудничества</h2>
+      <p>
+        У каждого бизнеса свой путь. Мы предлагаем два маршрута — в зависимости
+        от того, насколько важны скорость, контроль и отсутствие остановок.
+      </p>
+
+      <div class="pricing">
+        <div class="price-card">
+          <h3>Базовый маршрут</h3>
+          <p>
+            Прямой путь от точки А до точки Б. Подходит для стабильных отправок
+            без срочности.
+          </p>
+          <div class="price">
+            цена: еще формируется(но это временно(но это не точно))
+          </div>
+        </div>
+
+        <div class="price-card">
+          <h3>Маршрут PRO</h3>
+          <p>Путь без остановок и задержек. С нотками сарказма и творчества</p>
+          <div class="price">цена: это безценно</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM -->
+    <section class="content">
+      <h2>Оставить заявку</h2>
+      <form>
+        <input type="text" placeholder="Имя" required />
+        <input type="tel" placeholder="Телефон" required />
+        <textarea placeholder="Комментарий"></textarea>
+        <button type="submit">Отправить</button>
+      </form>
+    </section>
+
+    <script>
+      const hero = document.querySelector(".hero");
+      const title = document.querySelector(".hero");
+      const back = document.getElementById("mountainBack");
+      const front = document.getElementById("mountainFront");
+      const road = document.getElementById("road");
+      const darken = document.getElementById("darken");
+
+      const lockDistance = 360; // scroll-jacking distance
+
+      window.addEventListener("scroll", () => {
+        const s = window.scrollY;
+
+        if (s < lockDistance) {
+          hero.classList.add("is-fixed");
+          hero.classList.add("show-title");
+        } else {
+          hero.classList.remove("is-fixed");
+        }
+
+        const progress = Math.min(s / lockDistance, 1);
+
+        back.style.transform = `translateX(${-progress * 80}px)`;
+        front.style.transform = `translateX(${progress * 120}px)`;
+
+        road.style.opacity = progress;
+        road.style.transform = `translateX(-50%) scale(${
+          0.6 + progress * 0.7
+        })`;
+        road.style.filter = `blur(${6 - progress * 6}px)`;
+
+        darken.style.opacity = progress * 0.6;
+      });
+    </script>
+  </body>
+</html>

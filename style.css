@@ -1,0 +1,83 @@
+:root {
+  --bg: #0b0d10;
+  --mountain: #1e242c;
+  --road: #2f2f2f;
+}
+
+body {
+  display: block;
+  background: var(--bg);
+  color: white;
+  overflow-x: hidden;
+}
+
+.hero {
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 100vh;
+}
+
+.scene {
+  width: 100%;
+  height: 100%;
+}
+
+.mountain path {
+  fill: var(--mountain);
+  filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.6));
+}
+
+.road polygon {
+  fill: var(--road);
+  transform-origin: bottom;
+  transform: scaleY(0);
+}
+
+.fog {
+  position: absolute;
+  inset: 0;
+  background: url("assets/fog.png") center/cover;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: absolute;
+  justify-content: center;
+  top: 40%;
+  width: 700px;
+  text-align: center;
+  z-index: 5;
+}
+.about {
+  height: 400px;
+  justify-content: center;
+}
+
+.form {
+  justify-content: center;
+  height: 100px;
+}
+h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+@media (max-width: 768px) {
+  .mountain.left {
+    transform: translateY(-40px);
+  }
+
+  .mountain.right {
+    transform: translateY(40px);
+  }
+
+  .road polygon {
+    transform-origin: bottom;
+  }
+
+  .hero-content {
+    top: 30%;
+    padding: 0 20px;
+  }
+}
