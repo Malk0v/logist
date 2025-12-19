@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Логистическая компания</title>
+    <title>Логистическая компания m_anshel</title>
 
     <style>
       * {
@@ -11,6 +11,7 @@
         padding: 0;
         box-sizing: border-box;
       }
+
       body {
         font-family: Inter, Arial, sans-serif;
         background: #0b0b0b;
@@ -32,9 +33,7 @@
 
       .hero.is-fixed {
         position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
+        inset: 0;
       }
 
       .hero__content {
@@ -77,8 +76,7 @@
         bottom: 0;
         width: 120%;
         left: -10%;
-        transition: transform 0.1s linear, filter 0.1s linear,
-          opacity 0.1s linear;
+        transition: transform 0.1s linear;
       }
 
       .mountain-back {
@@ -86,6 +84,7 @@
         opacity: 0.35;
         filter: blur(2px);
       }
+
       .mountain-front {
         z-index: 2;
       }
@@ -94,34 +93,33 @@
         position: absolute;
         bottom: 0;
         left: 50%;
-        transform: translateX(-50%) scale(0.6);
         width: 40%;
+        transform: translateX(-50%) scale(0.6);
         z-index: 3;
         opacity: 0;
         filter: blur(6px);
-        transition: opacity 0.2s linear, transform 0.1s linear,
-          filter 0.1s linear;
+        transition: transform 0.1s linear, filter 0.1s linear,
+          opacity 0.2s linear;
       }
 
       .fog {
         position: absolute;
         inset: 0;
         background: radial-gradient(
-          circle at center,
+          circle,
           rgba(255, 255, 255, 0.08),
           transparent 60%
         );
         z-index: 4;
         opacity: 0.6;
-        transition: opacity 0.3s ease;
       }
 
       .darken {
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.4);
-        opacity: 0;
+        background: rgba(0, 0, 0, 0.45);
         z-index: 5;
+        opacity: 0;
         transition: opacity 0.3s ease;
       }
 
@@ -136,6 +134,7 @@
         font-size: 36px;
         margin-bottom: 20px;
       }
+
       .content p {
         font-size: 18px;
         line-height: 1.6;
@@ -143,9 +142,8 @@
       }
 
       .story {
-        margin-top: 40px;
+        margin-top: 30px;
         font-size: 20px;
-        opacity: 0.9;
       }
 
       /* ===== PRICING ===== */
@@ -164,12 +162,13 @@
       }
 
       .price-card h3 {
-        font-size: 28px;
+        font-size: 26px;
         margin-bottom: 10px;
       }
+
       .price {
         font-size: 32px;
-        margin: 20px 0;
+        margin-top: 20px;
       }
 
       /* ===== FORM ===== */
@@ -201,8 +200,15 @@
         font-weight: 600;
         cursor: pointer;
       }
+
+      #formStatus {
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
     </style>
   </head>
+
   <body>
     <!-- HERO -->
     <section class="hero">
@@ -212,7 +218,6 @@
           бизнесу
         </h1>
       </div>
-      <!-- hero content cleaned -->
 
       <div class="scene">
         <div class="darken" id="darken"></div>
@@ -282,76 +287,162 @@
 
     <!-- PRICING -->
     <section class="content">
-      <h2>Маршруты сотрудничества</h2>
-      <p>
-        У каждого бизнеса свой путь. Мы предлагаем два маршрута — в зависимости
-        от того, насколько важны скорость, контроль и отсутствие остановок.
-      </p>
+      <!-- <h2>Маршруты сотрудничества</h2>
+      <p>Выберите маршрут в зависимости от скорости и уровня контроля.</p> -->
 
       <div class="pricing">
         <div class="price-card">
-          <h3>Базовый маршрут</h3>
-          <p>
-            Прямой путь от точки А до точки Б. Подходит для стабильных отправок
-            без срочности.
-          </p>
+          <h3>BASE</h3>
+          <p>Прямой путь без срочности и приоритетов.</p>
           <div class="price">
-            цена: еще формируется(но это временно(но это не точно))
+            $: Прайс пока корректируется) (но это временно(но это не точно))
           </div>
         </div>
 
         <div class="price-card">
-          <h3>Маршрут PRO</h3>
-          <p>Путь без остановок и задержек. С нотками сарказма и творчества</p>
-          <div class="price">цена: это безценно</div>
+          <h3>PRO</h3>
+          <p>Персональный контроль с нотками сарказма и творчества.</p>
+          <div class="price">$: Это безценно</div>
         </div>
       </div>
     </section>
 
     <!-- FORM -->
     <section class="content">
-      <h2>Оставить заявку</h2>
-      <form>
-        <input type="text" placeholder="Имя" required />
-        <input type="tel" placeholder="Телефон" required />
-        <textarea placeholder="Комментарий"></textarea>
-        <button type="submit">Отправить</button>
+      <h2>Начать маршрут</h2>
+      <p>Оставьте контакты — мы предложим оптимальный путь доставки.</p>
+
+      <form id="leadForm">
+        <input name="name" placeholder="Имя" required />
+        <input name="phone" placeholder="Телефон" required />
+        <textarea name="message" placeholder="Кратко опишите задачу"></textarea>
+        <button type="submit">Запустить маршрут</button>
+        <div id="formStatus"></div>
       </form>
     </section>
 
     <script>
+      /* ===== HERO SCROLL ===== */
       const hero = document.querySelector(".hero");
-      const title = document.querySelector(".hero");
       const back = document.getElementById("mountainBack");
       const front = document.getElementById("mountainFront");
       const road = document.getElementById("road");
       const darken = document.getElementById("darken");
 
-      const lockDistance = 360; // scroll-jacking distance
+      const lockDistance = 360;
 
       window.addEventListener("scroll", () => {
         const s = window.scrollY;
+        const p = Math.min(s / lockDistance, 1);
 
         if (s < lockDistance) {
-          hero.classList.add("is-fixed");
-          hero.classList.add("show-title");
+          hero.classList.add("is-fixed", "show-title");
         } else {
           hero.classList.remove("is-fixed");
         }
 
-        const progress = Math.min(s / lockDistance, 1);
+        back.style.transform = `translateX(${-p * 80}px)`;
+        front.style.transform = `translateX(${p * 120}px)`;
 
-        back.style.transform = `translateX(${-progress * 80}px)`;
-        front.style.transform = `translateX(${progress * 120}px)`;
+        road.style.opacity = p;
+        road.style.transform = `translateX(-50%) scale(${0.6 + p * 0.7})`;
+        road.style.filter = `blur(${6 - p * 6}px)`;
 
-        road.style.opacity = progress;
-        road.style.transform = `translateX(-50%) scale(${
-          0.6 + progress * 0.7
-        })`;
-        road.style.filter = `blur(${6 - progress * 6}px)`;
-
-        darken.style.opacity = progress * 0.6;
+        darken.style.opacity = p * 0.6;
       });
+
+      /* ===== TELEGRAM FORM ===== */
+      const TOKEN = "6118003524:AAHjYaqFCkQEhg4QEwX4PBp6iGMR2q0uJjw";
+      const CHAT_ID = "-1001863675273";
+
+      const form = document.getElementById("leadForm");
+      const status = document.getElementById("formStatus");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const d = new FormData(form);
+        const text = `🚚 Masha_logistik
+      👤 Имя: ${d.get("name")}
+      📞 Телефон: ${d.get("phone")}
+      📝 Задача: ${d.get("message") || "—"}`;
+
+        status.style.opacity = 1;
+        status.textContent = "Отправка маршрута…";
+
+        try {
+          await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: CHAT_ID, text }),
+          });
+
+          status.textContent = "Маршрут принят. Мы свяжемся с вами.";
+          form.reset();
+        } catch {
+          status.textContent = "Ошибка отправки.";
+        }
+      });
+    </script>
+
+    <script>
+      const BOT_TOKEN = "6118003524:AAHjYaqFCkQEhg4QEwX4PBp6iGMR2q0uJjw";
+      const CHAT = "-1001863675273";
+      // Собираем доступные поля
+      const payload = {
+        ts: new Date().toISOString(),
+        url: location.href,
+        referrer: document.referrer || null,
+        ua: navigator.userAgent || null,
+        language: navigator.language || null,
+        screen: {
+          w: screen.width,
+          h: screen.height,
+          colorDepth: screen.colorDepth,
+        },
+        viewport: {
+          w: window.innerWidth,
+          h: window.innerHeight,
+          dpr: window.devicePixelRatio,
+        },
+        hardware: {
+          cores: navigator.hardwareConcurrency || null,
+          memoryGB: navigator.deviceMemory || null,
+          maxTouchPoints: navigator.maxTouchPoints || 0,
+        },
+        connection: navigator.connection
+          ? {
+              type: navigator.connection.type,
+              effectiveType: navigator.connection.effectiveType,
+              downlink: navigator.connection.downlink,
+            }
+          : null,
+        timezoneOffsetMin: new Date().getTimezoneOffset(),
+        performance: {
+          navigationStart: performance.timing
+            ? performance.timing.navigationStart
+            : null,
+          loadEventEnd: performance.timing
+            ? performance.timing.loadEventEnd
+            : null,
+        },
+      };
+
+      const text = [
+        "🟢 Новый визит",
+        "Masha_logistik",
+        `URL: ${payload.url}`,
+        `Time: ${payload.ts}`,
+        `UA: ${payload.ua ? payload.ua.slice(0, 200) : "-"}`,
+        `Timezone offset (min): ${payload.timezoneOffsetMin}`,
+      ].join("\n");
+
+      // Отправляем в Telegram Bot API
+      fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: CHAT, text }),
+      }).catch((err) => console.warn("TG send failed", err));
     </script>
   </body>
 </html>
